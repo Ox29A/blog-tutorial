@@ -11,7 +11,7 @@ import { deleteRoutine, getRoutine } from "~/models/routine.server";
 import { requireUserId } from "~/session.server";
 
 type LoaderData = {
-  routine: Routine | any
+  routine: Routine | any;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -34,16 +34,71 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect("/routines");
 };
 
-export default function NoteDetailsPage() {
+export default function RoutineDetailsPage() {
   const data = useLoaderData() as LoaderData;
 
   return (
     <div>
-      <h3 className="text-2xl font-bold">{data.routine.name}</h3>
-      <p className="py-6">{data.routine.description}</p>
+      {/* Create a flexbox container that shows our routine name and description then lets us add scenarios */}
+      <h3 className="text-2xl font-bold">
+        Routine Details - {data.routine.name}
+      </h3>
+      <p className="py-6">
+        <span className="font-bold">Description: </span>
+        {data.routine.description}
+      </p>
+      <hr className="my-2" />
+      {/* List scenarios if any */}
+      {
+        <div>
+          <h4 className="text-2xl font-bold">Scenarios</h4>
+          <ul className="list-disc list-inside">
+            <li key="test-1" className="">
+              <a href={`/routines/routineId/scenarios/scenarioId`}>
+                Scenario Name goes here
+              </a>
+            </li>
+            <li key="test-2" className="">
+              <a href={`/routines/routineId/scenarios/scenarioId`}>
+                Scenario Name goes here
+              </a>
+            </li>
+            <li key="test-3" className="">
+              <a href={`/routines/routineId/scenarios/scenarioId`}>
+                Scenario Name goes here
+              </a>
+            </li>
+            <li key="test-4" className="">
+              <a href={`/routines/routineId/scenarios/scenarioId`}>
+                Scenario Name goes here
+              </a>
+            </li>
+            {/* {data.routine.scenarios.map((scenario) => (
+              <li key={scenario.id}>
+                <a
+                  href={`/routines/${data.routine.id}/scenarios/${scenario.id}`}
+                >
+                  {scenario.name}
+                </a>
+              </li>
+            ))} */}
+          </ul>
+        </div>
+      }
+      ;{/* Create a form that lets us add scenarios */}
+      <Form method="post">
+        <button
+          type="submit"
+          className="rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
+        >
+          Add Scenario
+        </button>
+      </Form>
+      {/* <h3 className="text-2xl font-bold">{data.routine.name}</h3>
+      <p className="py-6">{data.routine.description}</p> */}
       {/* Show author at bottom of card */}
       {/* Display author name here for us to use */}
-      <p>{data.routine.author?.email}</p>
+      {/* <p>{data.routine.author?.email}</p>
       <hr className="my-4" />
       <Form method="post">
         <button
@@ -52,7 +107,7 @@ export default function NoteDetailsPage() {
         >
           Delete
         </button>
-      </Form>
+      </Form> */}
     </div>
   );
 }
